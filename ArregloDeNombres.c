@@ -8,6 +8,18 @@ void mostrarPersonas(char **personas){ //doble puntero porque es una lista de st
     }
 }
 
+void buscarNombre(char **personas){
+    int id;
+    
+    printf("\nIngrese un id: ");
+    scanf("%d", &id);
+    if(id < 0 || id >= 5){
+        printf("no se encontro el valor buscado");
+    }else{
+        puts(personas[id]);
+    }
+}
+
 int main()
 {
     //codigo dado en clases
@@ -37,6 +49,7 @@ int main()
     }
     
     mostrarPersonas(personas);
+    buscarNombre(personas);
 
     for(int i=0; i<5;i++){
         free(personas[i]);
