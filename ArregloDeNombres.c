@@ -2,8 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+void mostrarPersonas(char **personas){ //doble puntero porque es una lista de strings (array de array, y cada array es un puntero al primer elemento)->doble puntero
+    for(int i=0; i<5;i++){
+        puts(personas[i]);
+    }
+}
+
 int main()
 {
+    //codigo dado en clases
     /*char buff[50];
     scanf("%s", buff);
     int tam = strlen(buff); // no considera el caracter nulo por lo tanto devuelve 10
@@ -18,24 +25,23 @@ int main()
     */
 
     char buff [5][50];
-    char *  Personas[5];
+    char *  personas[5];
     int tam = 0;
     for(int i=0; i<5;i++){
         printf("Ingrese un nombre");
         gets(buff[i]);
         tam = strlen(buff[i]);
-        Personas[i]= (char *) malloc(sizeof(char)*(tam+1)); //asigno espacio en memoria para personas[i]
-        strcpy(Personas[i], buff[i]); //copio a personas[i] lo que estaba en buff[i]
+        personas[i]= (char *) malloc(sizeof(char)*(tam+1)); //asigno espacio en memoria para personas[i]
+        strcpy(personas[i], buff[i]); //copio a personas[i] lo que estaba en buff[i]
         getchar(); 
     }
-    for(int i=0; i<5;i++){
-        puts(Personas[i]);
-    }
+    
+    mostrarPersonas(personas);
 
     for(int i=0; i<5;i++){
-        free(Personas[i]);
+        free(personas[i]);
     }
-
+    
 
     return 0;
 }
