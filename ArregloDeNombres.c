@@ -8,7 +8,19 @@ void mostrarPersonas(char **personas){ //doble puntero porque es una lista de st
     }
 }
 
-int buscarNombre(char **personas, char *palabra){
+void buscarNombrePorId(char **personas){
+    int id;
+    
+    printf("\nIngrese un id: ");
+    scanf("%d", &id);
+    if(id < 0 || id >= 5){
+        printf("no se encontro el valor buscado");
+    }else{
+        puts(personas[id]);
+    }
+}
+
+int  BuscaNombrePorPalabra(char **personas, char *palabra){
     int coincidencia = -1; 
     int i=0;
     while(i<5 && coincidencia==-1){
@@ -24,25 +36,13 @@ int buscarNombre(char **personas, char *palabra){
 
 int main()
 {
-    //codigo dado en clases
-    /*char buff[50];
-    scanf("%s", buff);
-    int tam = strlen(buff); // no considera el caracter nulo por lo tanto devuelve 10
-   
-    char * Cadena;     
-    Cadena = (char *) malloc (sizeof(char) * tam + 1); // Reserva de memoria para la cadena pero aumento 1 byte para el carcter nulo
-    
-    strcpy(Cadena, buff);  
-    printf("%s",Cadena);
-    
-    getchar();  
-    */
-
     char buff [5][50];
     char *  personas[5];
     char *keyword;
     int indiceEncontrado;
     int tam = 0;
+
+    //Ingresar nombres
     for(int i=0; i<5;i++){
         printf("Ingrese un nombre");
         gets(buff[i]);
@@ -52,8 +52,10 @@ int main()
         getchar(); 
     }
     
+    //Mostrar nombres
     mostrarPersonas(personas);
-
+    
+    //Buscar por Palabra
     printf("\ningrese la palabra clave: ");
     gets(buff[0]);
     keyword = (char *) malloc(sizeof(char)*(strlen(buff[0])+1));
@@ -66,6 +68,8 @@ int main()
         printf("\nLa palabra clave no se encuentra entre los nombres ingresados");
     }
     
+    //Buscar Por ID
+    buscarNombrePorId(personas);
 
     for(int i=0; i<5;i++){
         free(personas[i]);
