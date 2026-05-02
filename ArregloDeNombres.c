@@ -8,6 +8,20 @@ void mostrarPersonas(char **personas){ //doble puntero porque es una lista de st
     }
 }
 
+int buscarNombre(char **personas, char *palabra){
+    int coincidencia = -1; 
+    int i=0;
+    while(i<5 && coincidencia==-1){
+        if(strstr(personas[i], palabra)==NULL){
+            i++;
+        }
+        else{
+            coincidencia=i;
+        }
+    }
+    return coincidencia;
+}
+
 int main()
 {
     //codigo dado en clases
@@ -26,6 +40,8 @@ int main()
 
     char buff [5][50];
     char *  personas[5];
+    char *keyword;
+    int indiceEncontrado;
     int tam = 0;
     for(int i=0; i<5;i++){
         printf("Ingrese un nombre");
@@ -37,6 +53,19 @@ int main()
     }
     
     mostrarPersonas(personas);
+
+    printf("\ningrese la palabra clave: ");
+    gets(buff[0]);
+    keyword = (char *) malloc(sizeof(char)*(strlen(buff[0])+1));
+    strcpy(keyword, buff[0]);
+    indiceEncontrado = buscarNombre(personas, keyword);
+    if(indiceEncontrado!=-1){
+        printf("\nEl nombre encontrado es: ");
+        puts(personas[indiceEncontrado]);
+    }else{
+        printf("\nLa palabra clave no se encuentra entre los nombres ingresados");
+    }
+    
 
     for(int i=0; i<5;i++){
         free(personas[i]);
