@@ -27,7 +27,7 @@ void cargarProductos(Producto *productos, int cant){
         char *buff = TiposProductos[rand()%5];//pongo el tipo en una variable auxiliar
         productos[i].tipo = malloc(sizeof(char)*(strlen(buff)+1)); //asigno en memoria
         strcpy(productos[i].tipo, buff);//copio desde la auxiliar al campo de la estructura
-        productos[i].precioUnitario = 1+rand() % (100-10+1);
+        productos[i].precioUnitario = 10+rand() % (100-10+1);
     }
 }
 
@@ -47,23 +47,35 @@ void cargarClientes(Cliente * clientes, int cant){
 }
 
 float costoTotal(Cliente *clientes, int indice){
-    float costos[clientes[indice].cantidad];
-    float total=0;
-    printf("\nEl cliente %d tiene %d productos distintos.", indice+1, clientes[indice].cantidad);
-    for(int i=0;i<clientes[indice].cantidad; i++){
-        costos[i]=clientes[indice].productos[i].precioUnitario*clientes[indice].productos[i].cantidad;
-        printf("\nEl costo total del producto numero %d es: %f",i+1, costos[i]);
-        total = total + costos[i];
+    float total = 0;
+    for(int i = 0; i < clientes[indice].cantidad; i++){
+        total += clientes[indice].productos[i].precioUnitario *
+                 clientes[indice].productos[i].cantidad;
     }
     return total;
-    
-    
+}
+
+void mostrarClientes(Cliente *clientes, int cant){
+    float total;
+    for(int i=0; i<cant;i++){
+        total=costoTotal(clientes, i);
+        printf("\n----------------");
+        printf("\nNombre: ");
+        puts(clientes[i].nombre);
+        printf("\nProductos: ");
+        for(int j=0; j<clientes[i].cantidad; j++){
+            puts(clientes[i].productos[j].tipo);
+            printf("\nPrecio unitario: %.2f", clientes[i].productos[j].precioUnitario);
+            printf("\ncantidad: %d\n", clientes[i].productos[j].cantidad);
+        }
+        printf("\nCosto total de sus productos: %.2f", total);
+        printf("\n----------------");
+   }
 }
 
 
 int main(){
-    int cantClientes, indice;
-    float costoProductos;
+    int cantClientes;
     Cliente * clientes;
     printf("\n-----------------------");
     printf("\nIngrese la cantidad de clientes: ");
@@ -81,10 +93,18 @@ int main(){
     cargarClientes(clientes, cantClientes);
     printf("\n ---------------------Carga finalizada-----------------");
 
-    printf("\n ---------------------Elija un numero de cliente para ver el costo de sus productos-----------------");
-    printf("\nCliente numero: ");
-    scanf("%d", &indice);
-    costoProductos=costoTotal(clientes, indice-1);
-    printf("\nEl costo total de los productos es: %f", costoProductos);
+    printf("\n ---------------------CLIENTES-----------------");
+    mostrarClientes(clientes, cantClientes);
+    
+    //liberar memoria
+    for(int i = 0; i < cantClientes; i++){
+        free(clientes[i].nombre);
+        for(int j = 0; j < clientes[i].cantidad; j++){
+            free(clientes[i].productos[j].tipo);
+        }
+        free(clientes[i].productos);
+    }
+    free(clientes);
+
     return 0;
 }
